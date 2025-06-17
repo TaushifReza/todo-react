@@ -50,6 +50,24 @@ function App() {
     fetchToDo();
   }, []);
 
+  useEffect(function () {
+    const interval = setInterval(function () {
+      const now = new Date();
+      const time = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+      const newTodo = {
+        userId: time,
+        id: time,
+        title: `Server-generated Task at ${time}`,
+        completed: false,
+      };
+
+      setTodos((prevTodos) => [...prevTodos, newTodo]);
+    }, 10000);
+
+    // Cleanup interval on unmount
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <div className="max-w-2xl mx-auto mt-6">
